@@ -1,0 +1,73 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+	<h1 class="mt-4">{{ title }}</h1>
+	
+	{% for message in app.session.flashbag.get('success')%}
+		<span class="alert alert-success">{{ message }}</span><br/>
+	{% endfor %}
+	{% for message in app.session.flashbag.get('error')%}
+		<span class="alert alert-danger">{{ message }}</span><br/>
+	{% endfor %}
+	
+	
+	 <div class="row">
+        <div class="col-12">
+            <p style="text-align: right;"><strong>Nombre de membres inscrits : {{ membres | length }} </strong></p>
+        </div>
+		
+
+        <table class="table table-striped table-hover table-dark">
+	
+		<!-- contenu du tableau -->
+		
+		<tr>
+			<th>Id du membre</th>
+			<th>Pseudo</th>
+			<th>Prénom - Nom</th>
+			<th>Email</th>
+			<th>Code Postal</th>
+			<th>Statut</th>
+			<th colspan="3">Action</th>
+		</tr>
+		
+		
+		{% for membre in membres %}
+		<tr>
+			<td>{{ membre.idMembre }}</td>
+			<td>{{ membre.pseudo }}</td>
+			<td>
+			{% if membre.civilite == 'm' %}
+				Mr
+			{% elseif produit.public == 'f' %}
+				Me		
+			{% endif %}
+			{{ membre.prenom }} {{ membre.nom | upper }}
+			</td>
+			<td>{{ membre.email }}</td>
+			<td>{{ membre.codePostal }}</td>
+			
+			
+			<td>
+			{% if membre.statut == 1 %}
+				<span class="text-danger">ADMIN</span>
+			{% else %}
+				CLIENT
+			{% endif %}		
+			</td>
+			
+			<td><a href="{# {{ path('update_membre', {'id' : membre.idMembre} ) }} #}"><i class="text-white fas fa-edit"></i></a></td>
+			<td><a href="{{ path('delete_membre', {'id' : membre.idMembre} ) }}"><i class="text-white fas fa-trash-alt"></i></a></td>
+
+			
+		</tr>
+		{% endfor %}
+	
+		</table>
+	</div>
+	
+
+
+{% endblock %}

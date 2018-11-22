@@ -1,0 +1,57 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+	<h1 class="mt-4">{{ title }}</h1>
+	
+	{% for message in app.session.flashbag.get('success')%}
+		<span class="alert alert-success">{{ message }}</span><br/>
+	{% endfor %}
+	{% for message in app.session.flashbag.get('error')%}
+		<span class="alert alert-danger">{{ message }}</span><br/>
+	{% endfor %}
+	
+	
+	 <div class="row">
+        <div class="col-12">
+            <p style="text-align: right;"><strong>Nombre de commandes passées  : {{ commandes | length }} </strong></p>
+        </div>
+		
+
+        <table class="table table-striped table-hover table-dark">
+	
+		<!-- contenu du tableau -->
+		
+		<tr>
+			<td>Id de la commande</td>
+			<td>Id du membre</td>
+			<td>Montant</td>
+			<td>Etat</td>
+			<th colspan="3">Action</th>
+		</tr>
+		
+		{% if commandes %}
+			{% for commande in commandes %}
+				<tr>
+					<td><img height="50px" src="{{ asset('photo/' ~ produit.photo ) }}"/></td>
+					<td>{{ commande.idCommande }}</td>
+					<td>{{ commande.idMembre }}</td>
+					<td>{{ commande.montant | number_format(2, ',', ' ') }}</td>
+					<td>{{ commande.etat }}</td>
+					<td><a href="{# {{ path('update_commande', {'id' : commande.idCommande} ) }} #}"><i class="text-white fas fa-edit"></i></a></td>
+					<td><a href="{{ path('delete_commande', {'id' : commande.idCommande} ) }}"><i class="text-white fas fa-trash-alt"></i></a></td>
+				</tr>
+			{% endfor %}
+		{% else %}
+			<tr align="center">
+				<th colspan="7">Aucune commande à ce jour</th>
+			</tr>
+		{% endif %}
+	
+		</table>
+	</div>
+	
+
+
+{% endblock %}
